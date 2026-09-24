@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050812">
+<title>Neon Sound — AI Music Studio</title>
+<style>
+:root{--bg:#050812;--panel:#0c1424;--line:#1b2d48;--blue:#27a8ff;--cyan:#63e5ff;--muted:#8ca1bd;--text:#eef7ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at 50% -10%,#10294b 0,transparent 48%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:680px;margin:auto;padding:22px 16px 120px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:1.5px;font-size:15px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#0876ff,#56e7ff);display:grid;place-items:center;color:#04101d;font-size:21px;box-shadow:0 0 25px #168eff55}
+.badge{font-size:11px;color:var(--cyan);border:1px solid #1c5478;border-radius:99px;padding:7px 10px;letter-spacing:1px}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:2.5px;margin:0 0 10px}
+h1{font-size:clamp(32px,8vw,48px);line-height:1.02;margin:0 0 12px;letter-spacing:-1.8px}
+h1 span{color:var(--blue);text-shadow:0 0 24px #168eff55}
+.sub{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 25px}
+.card{background:linear-gradient(145deg,#0d192b,#09111e);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 12px 35px #0002}
+.label{display:block;font-size:12px;font-weight:750;letter-spacing:1px;color:#b9cbe0;margin-bottom:12px}
+textarea{width:100%;min-height:105px;resize:vertical;background:#060d18;border:1px solid #203650;border-radius:13px;padding:14px;color:var(--text);font:15px/1.5 inherit;outline:none}
+textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #168eff1b}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid #263d5b;color:#b8c9df;background:#0a1422;border-radius:999px;padding:10px 13px;font-size:13px;font-weight:650}
+.chip.active{color:#fff;background:#10365a;border-color:var(--blue);box-shadow:0 0 15px #168eff20}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0 10px}
+select{background:#091321;border:1px solid #263d5b;border-radius:10px;color:#eaf5ff;padding:10px;font-size:13px}
+.generate{width:100%;border:0;border-radius:14px;padding:16px;background:linear-gradient(100deg,#087bff,#25c5ff);color:#001020;font-size:15px;font-weight:900;letter-spacing:.3px;box-shadow:0 8px 25px #087bff35}
+.generate:active{transform:scale(.99)}
+.note{color:#7890ad;font-size:11px;line-height:1.45;text-align:center;margin:10px 6px 0}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}
+.section-title h2{font-size:17px;margin:0}.small{font-size:11px;color:var(--muted)}
+.track{display:flex;align-items:center;gap:12px}
+.cover{width:53px;height:53px;flex-shrink:0;border-radius:13px;background:linear-gradient(135deg,#0d67a9,#07152d);display:grid;place-items:center;font-size:22px;border:1px solid #1d4c77}
+.track-info{min-width:0;flex:1}.track-info strong{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track-info span{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+.play{width:39px;height:39px;border-radius:50%;border:1px solid #28618c;background:#0b2b47;color:#8fe5ff;font-size:15px}
+.empty{border:1px dashed #213752;border-radius:14px;padding:17px;color:#8197b3;font-size:13px;text-align:center;line-height:1.5}
+footer{color:#536b88;font-size:11px;text-align:center;margin-top:28px}
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:640px;margin:auto;background:#10243a;border:1px solid #24577d;border-radius:13px;padding:13px 15px;font-size:13px;color:#dff5ff;display:none;z-index:5;box-shadow:0 10px 35px #0008}
+@media(min-width:600px){.wrap{padding-top:35px}.card{padding:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">ϟ</div><div>NEON SOUND<br><span style="color:#7e9bb9;font-size:9px;letter-spacing:2px">AI MUSIC STUDIO</span></div></div>
+  <div class="badge">BETA · 0 €</div>
+</header>
+
+<p class="eyebrow">YOUR SOUND. YOUR RULES.</p>
+<h1>Make your<br><span>next banger.</span></h1>
+<p class="sub">Beschreibe deinen Sound. Wähle den Vibe. Mach dein Ding.</p>
+
+<section class="card">
+  <label class="label" for="prompt">01 / BESCHREIBE DEINEN TRACK</label>
+  <textarea id="prompt" maxlength="500" placeholder="z. B. Fetter Bass, düsterer Build-up und ein energiegeladener Festival-Drop …"></textarea>
+  <div class="row"><span class="small">Deine Idee in Worte fassen</span><button class="chip" id="example" type="button">✨ Beispiel</button></div>
+</section>
+
+<section class="card">
+  <span class="label">02 / WÄHLE DEINEN STYLE</span>
+  <div class="chips" id="genres">
+    <button class="chip active" data-genre="Bass">🔊 Bass</button>
+    <button class="chip" data-genre="Techno">⚡ Techno</button>
+    <button class="chip" data-genre="EDM">🌌 EDM</button>
+    <button class="chip" data-genre="House">🎛️ House</button>
+    <button class="chip" data-genre="Phonk">🌀 Phonk</button>
+  </div>
+  <div class="row"><label class="label" for="energy" style="margin:0">ENERGIE</label>
+    <select id="energy"><option>Maximal</option><option>Entspannt</option><option>Düster</option><option>Party</option></select>
+  </div>
+</section>
+
+<button class="generate" id="generate">✦ &nbsp; GENERATE MUSIC</button>
+<p class="note">Demo-Modus: Der Button erstellt aktuell einen Track-Eintrag. Echte KI-Audioerzeugung wird später angebunden.</p>
+
+<div class="section-title"><h2>My Tracks</h2><span class="small" id="count">0 TRACKS</span></div>
+<div id="tracks" class="empty">Deine erstellten Track-Ideen erscheinen hier.<br>Leg los und erstelle deinen ersten Entwurf.</div>
+
+<footer>NEON SOUND · Dein persönliches Musikstudio<br>Diese Demo speichert Track-Ideen lokal in deinem Browser.</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+let genre="Bass", tracks=JSON.parse(localStorage.getItem("neonTracks")||"[]");
+document.querySelectorAll("#genres .chip").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("#genres .chip").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); genre=b.dataset.genre;
+}));
+$("#example").addEventListener("click",()=>{$("#prompt").value="Ein druckvoller "+genre+"-Track mit tiefem Bass, langsamem Build-up und einem explosiven Drop.";});
+function toast(msg){let t=$("#toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",3200)}
+function render(){
+ $("#count").textContent=tracks.length+" TRACK"+(tracks.length===1?"":"S");
+ let box=$("#tracks");
+ if(!tracks.length){box.className="empty";box.innerHTML="Deine erstellten Track-Ideen erscheinen hier.<br>Leg los und erstelle deinen ersten Entwurf.";return;}
+ box.className="";
+ box.innerHTML=tracks.map((t,i)=>`<div class="card track"><div class="cover">♫</div><div class="track-info"><strong>${escapeHtml(t.title)}</strong><span>${escapeHtml(t.genre)} · ${escapeHtml(t.energy)} · Entwurf</span></div><button class="play" data-del="${i}" aria-label="Entwurf löschen">×</button></div>`).join("");
+ box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{tracks.splice(+b.dataset.del,1);save();render()}));
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function save(){localStorage.setItem("neonTracks",JSON.stringify(tracks))}
+$("#generate").addEventListener("click",()=>{
+ let p=$("#prompt").value.trim();
+ if(!p){toast("Schreib zuerst eine kurze Beschreibung für deinen Track.");$("#prompt").focus();return;}
+ let title=p.length>35?p.slice(0,35).trim()+"…":p;
+ tracks.unshift({title,genre,energy:$("#energy").value,prompt:p});
+ tracks=tracks.slice(0,30);save();render();
+ toast("Track-Idee gespeichert! Echte Audio-Generierung kommt in einem späteren Schritt.");
+});
+render();
+</script>
+</body>
+</html>
